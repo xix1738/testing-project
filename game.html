@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Tic-Tac-Toe Game</title>
+  <style>
+    /* Game Board Styling */
+    .game-board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 10px;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+
+
+   
+    
+    /* Game Cell Styling */
+    .game-cell {
+      width: 100px;
+      height: 100px;
+      border: 2px solid #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 40px;
+      cursor: pointer;
+      background-color: #17202A;
+      color: #fff;
+      transition: all 0.3s ease-in-out;
+    }
+    
+    /* Game Cell Hover Styling */
+    .game-cell:hover {
+      background-color: #0E6251;
+    }
+    
+    /* Player 'X' Styling */
+    .player-x {
+      background-color: #641E16;
+    }
+    
+    /* Player 'O' Styling */
+    .player-o {
+      background-color: #1B4F72;
+    }
+    
+    /* Winner Styling */
+    .winner {
+      border-color: #FFC300 !important;
+    }
+    
+    /* Game Info Styling */
+    .game-info {
+      max-width: 300px;
+      margin: 20px auto;
+      text-align: center;
+      color: #fff;
+    }
+    
+    /* Reset Button Styling */
+    .reset-button {
+      padding: 10px 20px;
+      background-color: #FFC300;
+      color: #17202A;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+    
+    /* Reset Button Hover Styling */
+    .reset-button:hover {
+      background-color: #FFD700;
+    }
+    
+    /* Player Selector Styling */
+    .player-selector {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    
+    /* Player Button Styling */
+    .player-button {
+      padding: 10px 20px;
+      background-color: #FFC300;
+      color: #17202A;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+      font-size: 16px;
+      margin: 0 5px;
+    }
+    
+    /* Player Button Active Styling */
+    .player-button.active {
+      background-color: #FFD700;
+    }
+    
+    /* Start Screen Styling */
+    .start-screen {
+      max-width: 300px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 50px 0;
+    }
+    
+    /* Start Screen Heading Styling */
+    .start-heading {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #fff;
+    }
+    
+    /* Start Screen Button Styling */
+    .start-button {
+      padding: 10px 20px;
+      background-color: #FFC300;
+      color: #17202A;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease-in-out;
+    }
+    
+    /* Start Screen Button Hover Styling */
+    .start-button:hover {
+      background-color: #FFD700;
+    }
+    
+    /* Body Styling */
+    body {
+      background-color: #3498DB;
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="start-screen">
+    <h1 class="start-heading"><i>Tic-Tac-Toe Game</i></h1>
+    <button class="start-button">Start Game</button>
+  </div>
+
+  <div class="player-selector">
+    <button class="player-button active" data-player="X">Choose X</button>
+    <button class="player-button" data-player="O">Choose O</button>
+  </div>
+
+  <div class="game-board">
+    <div class="game-cell"></div>
+    <div class="game-cell"></div>
+    <div class="game-cell"></div>
+    <div class="game-cell"></div>
+    <div class="game-cell"></div>
+    <div class="game-cell"></div>
+    <div class="game-cell"></div>
+    <div class="game-cell"></div>
+    <div class="game-cell"></div>
+  </div>
+
+  <div class="game-info">
+    <h2>It's Player <span id="currentPlayer">X</span>'s Turn</h2>
+    <button class="reset-button">Reset Game</button>
+  </div>
+
+  <script>
+    var cells = document.getElementsByClassName('game-cell');
+    var currentPlayer = 'X';
+    var gameActive = false;
+    var winningCombos = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
+    ];
+
+    // Hide game board and game info initially
+    document.querySelector('.game-board').style.display = 'none';
+    document.querySelector('.game-info').style.display = 'none';
+
+    // Add click event listener to start button
+    var startButton = document.querySelector('.start-button');
+    startButton.addEventListener('click', function() {
+      // Show game board and game info
+      document.querySelector('.game-board').style.display = 'grid';
+      document.querySelector('.game-info').style.display = 'block';
+      // Hide start screen
+      document.querySelector('.start-screen').style.display = 'none';
+      gameActive = true;
+    });
+
+    // Add click event listeners to each cell
+    for (var i = 0; i < cells.length; i++) {
+      cells[i].addEventListener('click', cellClicked);
+    }
+
+    function cellClicked(event) {
+      var cell = event.target;
+      var cellIndex = Array.prototype.indexOf.call(cells, cell);
+
+      if (cell.innerHTML === '' && gameActive) {
+        cell.innerHTML = currentPlayer;
+        cell.classList.add('player-' + currentPlayer);
+
+        if (checkWin(currentPlayer)) {
+          endGame(false);
+        } else if (checkDraw()) {
+          endGame(true);
+        } else {
+          currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+          document.getElementById('currentPlayer').innerHTML = currentPlayer;
+        }
+      }
+    }
+
+    function checkWin(player) {
+      for (var i = 0; i < winningCombos.length; i++) {
+        var combo = winningCombos[i];
+        var hasWon = true;
+        
+        for (var j = 0; j < combo.length; j++) {
+          if (!cells[combo[j]].classList.contains('player-' + player)) {
+            hasWon = false;
+            break;
+          }
+        }
+        
+        if (hasWon) {
+          return true;
+        }
+      }
+      
+      return false;
+    }
+
+    function checkDraw() {
+      for (var i = 0; i < cells.length; i++) {
+        if (cells[i].innerHTML === '') {
+          return false;
+        }
+      }
+      
+      return true;
+    }
+
+    function endGame(draw) {
+      gameActive = false;
+      var gameInfo = document.querySelector('.game-info');
+      var currentPlayer = document.getElementById('currentPlayer');
+      var resetButton = document.querySelector('.reset-button');
+
+      if (draw) {
+        gameInfo.innerHTML = "<h2>It's a Draw!</h2>";
+      } else {
+        var winner = currentPlayer.innerHTML === 'X' ? 'O' : 'X';
+        gameInfo.innerHTML = "<h2>Player " + winner + " Wins!</h2>";
+      }
+
+      gameInfo.classList.add('winner');
+      currentPlayer.style.color = '#FFC300';
+      resetButton.style.display = 'block';
+
+      for (var i = 0; i < winningCombos.length; i++) {
+        var combo = winningCombos[i];
+        var hasWon = true;
+        
+        for (var j = 0; j < combo.length; j++) {
+          cells[combo[j]].classList.add('winner');
+        }
+      }
+    }
+
+    // Reset game when reset button is clicked
+    var resetButton = document.querySelector('.reset-button');
+    resetButton.addEventListener('click', function() {
+      for (var i = 0; i < cells.length; i++) {
+        cells[i].innerHTML = '';
+        cells[i].classList.remove('player-X', 'player-O', 'winner');
+      }
+      
+      gameActive = true;
+      currentPlayer = 'X';
+      document.getElementById('currentPlayer').innerHTML = currentPlayer;
+      var gameInfo = document.querySelector('.game-info');
+      gameInfo.innerHTML = "<h2>It's Player X's Turn</h2>";
+      gameInfo.classList.remove('winner');
+      document.getElementById('currentPlayer').style.color = '#fff';
+      resetButton.style.display = 'none';
+    });
+
+    // Player selector functionality
+    var playerButtons = document.querySelectorAll('.player-button');
+    playerButtons.forEach(function(button) {
+      button.addEventListener('click', function() {
+        playerButtons.forEach(function(btn) {
+          btn.classList.remove('active');
+        });
+        this.classList.add('active');
+        currentPlayer = this.getAttribute('data-player');
+        document.getElementById('currentPlayer').innerHTML = currentPlayer;
+      });
+    });
+
+   
+  </script>
+</body>
+</html>

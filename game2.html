@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Crossword Puzzle Game</title>
+  <style>
+    /* Crossword Grid Styling */
+    .crossword-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      grid-template-rows: repeat(5, 1fr);
+      grid-gap: 2px;
+      max-width: 500px;
+      margin: 0 auto;
+      background-color: #EEE;
+      padding: 10px;
+    }
+    
+    /* Crossword Cell Styling */
+    .crossword-cell {
+      background-color: #FFF;
+      border: 1px solid #CCC;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 20px;
+      font-weight: bold;
+      text-transform: uppercase;
+    }
+    
+    /* Clue Section Styling */
+    .clue-section {
+      max-width: 500px;
+      margin: 20px auto;
+    }
+    
+    /* Clue Heading Styling */
+    .clue-heading {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    
+    /* Clue List Styling */
+    .clue-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    /* Clue Item Styling */
+    .clue-item {
+      margin-bottom: 5px;
+    }
+    
+    /* Body Styling */
+    body {
+      background-color: #F5F5F5;
+      margin: 0;
+      padding: 20px;
+      font-family: Arial, sans-serif;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <div class="crossword-grid">
+    <!-- Top Row -->
+    <div class="crossword-cell">H</div>
+    <div class="crossword-cell"></div>
+    <div class="crossword-cell">C</div>
+    <div class="crossword-cell"></div>
+    <div class="crossword-cell">A</div>
+    
+    <!-- Second Row -->
+    <div class="crossword-cell"></div>
+    <div class="crossword-cell">A</div>
+    <div class="crossword-cell"></div>
+    <div class="crossword-cell">R</div>
+    <div class="crossword-cell"></div>
+    
+    <!-- Third Row -->
+    <div class="crossword-cell">T</div>
+    <div class="crossword-cell"></div>
+    <div class="crossword-cell">I</div>
+    <div class="crossword-cell"></div>
+    <div class="crossword-cell">R</div>
+    
+    <!-- Fourth Row -->
+    <div class="crossword-cell"></div>
+    <div class="crossword-cell">R</div>
+    <div class="crossword-cell"></div>
+    <div class="crossword-cell">E</div>
+    <div class="crossword-cell"></div>
+    
+    <!-- Fifth Row -->
+    <div class="crossword-cell">E</div>
+    <div class="crossword-cell"></div>
+    <div class="crossword-cell">A</div>
+    <div class="crossword-cell"></div>
+    <div class="crossword-cell">T</div>
+  </div>
+  
+  <div class="clue-section">
+    <h2 class="clue-heading">Clues:</h2>
+    <ul class="clue-list">
+      <li class="clue-item">1. Across - HCA</li>
+      <li class="clue-item">2. Down - CAT</li>
+      <li class="clue-item">3. Across - TIR</li>
+      <li class="clue-item">4. Down - RAT</li>
+      <li class="clue-item">5. Across - EAT</li>
+    </ul>
+  </div>
+</body>
+</html>
